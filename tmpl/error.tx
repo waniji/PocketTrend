@@ -1,0 +1,15 @@
+: cascade "include/layout.tx"
+
+: override content -> {
+
+<style>
+    .marketing .row {
+        margin-top: 20px;
+    }
+</style>
+
+<h1 style="padding: 70px; text-align: center; font-size: 80px; line-height: 1; letter-spacing: -2px;"><: $error :></h1>
+
+<hr />
+
+: }

@@ -1,0 +1,34 @@
+: cascade "include/layout.tx"
+
+: override content -> {
+
+<style>
+    .marketing .row {
+        margin-top: 20px;
+    }
+</style>
+
+<h1 style="padding: 70px; text-align: center; font-size: 80px; line-height: 1; letter-spacing: -2px;">Pocket Trend</h1>
+
+<hr />
+
+<div id="trend" style="height: 250px;"></div>
+
+<script>
+new Morris.Line({
+  element: 'trend',
+  data: [
+: for $trend -> $item {
+    { date: '<: $item.date :>', add: <: $item.add :>, read: <: $item.read :>},
+: }
+  ],
+  lineColors: ['green', 'blue'],
+  xkey: 'date',
+  ykeys: ['add','read'],
+  xLabels: 'day',
+  smooth: false,
+  labels: ['add','read']
+});
+</script>
+
+: }
