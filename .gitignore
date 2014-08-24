@@ -17,3 +17,4 @@ MYMETA.yml
 /local/
 /.carton/
 cpanfile.snapshot
+config.pl
