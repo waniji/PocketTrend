@@ -1,6 +1,25 @@
 body {
 }
 
+div#trend{
+    height: 250px;
+}
+
+h1 {
+    margin: 0;
+    padding: 40px;
+    text-align: center;
+    font-size: 80px;
+    line-height: 1;
+    letter-spacing: -2px;
+    color: #F2F2F2;
+    background-color: #EF3E56;
+}
+
+h2 {
+    font-size: 30px;
+}
+
 footer {
     text-align: right;
     padding-right: 10px;

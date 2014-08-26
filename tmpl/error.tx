@@ -1,15 +1,24 @@
-: cascade "include/layout.tx"
-
-: override content -> {
-
-<style>
-    .marketing .row {
-        margin-top: 20px;
-    }
-</style>
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title><: $title || 'PocketTrend' :></title>
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta http-equiv="Content-Script-Type" content="text/javascript" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="format-detection" content="telephone=no" />
+    <link href="<: uri_for('/static/bootstrap/css/bootstrap.css') :>" rel="stylesheet" type="text/css" />
+    <script src="<: uri_for('/static/bootstrap/js/bootstrap.js') :>"></script>
+    <link href="<: static_file('/static/css/main.css') :>" rel="stylesheet" type="text/css" media="screen" />
+    <script src="<: static_file('/static/js/main.js') :>"></script>
+    <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
 
 <h1 style="padding: 70px; text-align: center; font-size: 80px; line-height: 1; letter-spacing: -2px;"><: $error :></h1>
 
-<hr />
+</body>
+</html>
 
-: }

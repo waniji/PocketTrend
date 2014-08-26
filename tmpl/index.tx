@@ -1,34 +1,53 @@
-: cascade "include/layout.tx"
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title><: $title || 'PocketTrend' :></title>
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta http-equiv="Content-Script-Type" content="text/javascript" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="format-detection" content="telephone=no" />
+    <link href="<: uri_for('/static/bootstrap/css/bootstrap.css') :>" rel="stylesheet" type="text/css" />
+    <script src="<: uri_for('/static/bootstrap/js/bootstrap.js') :>"></script>
+    <link href="<: static_file('/static/css/main.css') :>" rel="stylesheet" type="text/css" media="screen" />
+    <script src="<: static_file('/static/js/main.js') :>"></script>
+    <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
+</head>
+<body>
+    <h1>Pocket Trend</h1>
+    <div class="container">
 
-: override content -> {
+        <div id="trend"></div>
 
-<style>
-    .marketing .row {
-        margin-top: 20px;
-    }
-</style>
 
-<h1 style="padding: 70px; text-align: center; font-size: 80px; line-height: 1; letter-spacing: -2px;">Pocket Trend</h1>
-
-<hr />
-
-<div id="trend" style="height: 250px;"></div>
+        <footer class="footer">
+            Powered by <a href="http://amon.64p.org/">Amon2</a>
+        </footer>
+    </div>
 
 <script>
 new Morris.Line({
-  element: 'trend',
-  data: [
+    element: 'trend',
+    data: [
 : for $trend -> $item {
-    { date: '<: $item.date :>', add: <: $item.add :>, read: <: $item.read :>},
+        { date: '<: $item.date :>', add: <: $item.add :>, read: <: $item.read :>},
 : }
-  ],
-  lineColors: ['green', 'blue'],
-  xkey: 'date',
-  ykeys: ['add','read'],
-  xLabels: 'day',
-  smooth: false,
-  labels: ['add','read']
+    ],
+    lineColors: ['#f0ad4e', '#5cb85c'],
+    xkey: 'date',
+    ykeys: ['add','read'],
+    xLabels: 'day',
+    smooth: false,
+    labels: ['add','read']
 });
 </script>
 
-: }
+</body>
+</html>
+
