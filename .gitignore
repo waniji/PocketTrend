@@ -18,3 +18,4 @@ MYMETA.yml
 /.carton/
 cpanfile.snapshot
 config.pl
+/data/

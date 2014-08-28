@@ -3,6 +3,8 @@ use strict;
 use warnings;
 use utf8;
 use File::Spec;
+use Cache::FileCache;
+use Cwd qw/abs_path/;
 our $VERSION='0.01';
 use 5.008001;
 
@@ -22,6 +24,17 @@ sub pocket {
         $c->{pocket} = $config;
     }
     $c->{pocket};
+}
+
+sub cache {
+    my $c = shift;
+    if (!exists $c->{cache}) {
+        my $cache = Cache::FileCache->new({
+            cache_root => abs_path($c->base_dir."/data"),
+        });
+        $c->{cache} = $cache;
+    }
+    $c->{cache};
 }
 
 sub config { +{} }
