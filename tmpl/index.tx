@@ -24,6 +24,7 @@
     <div class="container">
 
         <div id="trend"></div>
+        <div class="refresh"><a href="/refresh"><button type="button" class="btn btn-primary">データ更新</button></a></div>
 
 
         <footer class="footer">

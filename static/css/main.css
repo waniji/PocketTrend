@@ -5,6 +5,10 @@ div#trend{
     height: 250px;
 }
 
+div.refresh {
+    text-align: right;
+}
+
 h1 {
     margin: 0;
     padding: 40px;
