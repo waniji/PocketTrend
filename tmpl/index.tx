@@ -26,7 +26,27 @@
         <div id="trend"></div>
         <div class="refresh"><a href="/refresh"><button type="button" class="btn btn-primary">データ更新</button></a></div>
 
+: for $article.keys().reverse() -> $date {
 
+        <h2><: $date :> (<: $trend[$date].add :> added, <: $trend[$date].read :> read)</h2>
+        <ul>
+    : for $article[$date] -> $item {
+            <li>
+        : if( $item.added ) {
+                    <span class="label label-warning">追加</span>
+        : } else {
+                    <span class="label">　　</span>
+        : }
+        : if( $item.read ) {
+                    <span class="label label-success">読了</span>
+        : } else {
+                    <span class="label">　　</span>
+        : }
+                <a href="<: $item.url:>" target="_blank"><: $item.title :></a>
+            </li>
+    : }
+        </ul>
+: }
         <footer class="footer">
             Powered by <a href="http://amon.64p.org/">Amon2</a>
         </footer>
@@ -36,8 +56,8 @@
 new Morris.Line({
     element: 'trend',
     data: [
-: for $trend -> $item {
-        { date: '<: $item.date :>', add: <: $item.add :>, read: <: $item.read :>},
+: for $trend.keys().sort() -> $date {
+        { date: '<: $date :>', add: <: $trend[$date].add :>, read: <: $trend[$date].read :>},
 : }
     ],
     lineColors: ['#f0ad4e', '#5cb85c'],
@@ -45,7 +65,7 @@ new Morris.Line({
     ykeys: ['add','read'],
     xLabels: 'day',
     smooth: false,
-    labels: ['add','read']
+    labels: ['追加','読了']
 });
 </script>
 
