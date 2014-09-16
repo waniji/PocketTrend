@@ -34,7 +34,7 @@ get '/' => sub {
     # カウント数が設定されていない箇所に0を設定する
     my ($first, $last) = (sort keys %counter)[0,-1];
     my $check_date = localtime->strptime($first, '%Y-%m-%d');
-    while( $check_date->ymd("-") ne $last ) {
+    while( $check_date->ymd("-") le $last ) {
         $counter{ $check_date->ymd("-") }->{add} //= 0;
         $counter{ $check_date->ymd("-") }->{read} //= 0;
         $check_date += ONE_DAY;
