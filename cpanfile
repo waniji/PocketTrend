@@ -12,6 +12,9 @@ requires 'Test::WWW::Mechanize::PSGI';
 requires 'Text::Xslate', '2.0009';
 requires 'Time::Piece', '1.20';
 requires 'Furl';
+requires 'Cache::FileCache';
+requires 'HTTP::Body';
+requires 'IO::Socket::SSL';
 requires 'perl', '5.010_001';
 
 on configure => sub {
