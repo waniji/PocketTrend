@@ -31,6 +31,21 @@ use PocketTrend::Web::View;
 
 # for your security
 __PACKAGE__->add_trigger(
+    BEFORE_DISPATCH => sub {
+        my ( $c ) = @_;
+
+        if( $c->req->path =~ m!^/setting! ) {
+            return;
+        }
+        if( $c->cache->get('consumer_key') ) {
+            return;
+        }
+        if( $c->cache->get('access_token') ) {
+            return;
+        }
+
+        return $c->redirect('/setting');
+    },
     AFTER_DISPATCH => sub {
         my ( $c, $res ) = @_;
 

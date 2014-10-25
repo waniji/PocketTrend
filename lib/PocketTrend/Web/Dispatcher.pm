@@ -3,14 +3,18 @@ use strict;
 use warnings;
 use utf8;
 use Amon2::Web::Dispatcher::RouterBoom;
-use Furl;
 use JSON;
 use URI;
+use URI::WithBase;
+use HTTP::Body;
 use Time::Piece;
 use Time::Seconds;
 use Encode qw/decode_utf8/;
 
 my $RETRIEVE_URL = 'https://getpocket.com/v3/get';
+my $REQUEST_TOKEN_URL = 'https://getpocket.com/v3/oauth/request';
+my $USER_AUTHORIZATION_URL = 'https://getpocket.com/auth/authorize';
+my $ACCESS_TOKEN_URL = 'https://getpocket.com/v3/oauth/authorize';
 
 get '/' => sub {
     my ($c) = @_;
@@ -85,16 +89,15 @@ get '/refresh' => sub {
 
     my $uri = URI->new( $RETRIEVE_URL );
     $uri->query_form(
-        consumer_key => $c->pocket->{consumer_key},
-        access_token => $c->pocket->{access_token},
+        consumer_key => $c->cache->get('consumer_key'),
+        access_token => $c->cache->get('access_token'),
         detailType => 'simple',
         state => 'all',
         count => '500',
     );
 
     # 記事を取得
-    my $furl = Furl->new( timeout => 10 );
-    my $res = $furl->get($uri);
+    my $res = $c->furl->get($uri);
     unless( $res->is_success ) {
         return $c->render('error.tx', {
             error => $res->status_line,
@@ -102,6 +105,81 @@ get '/refresh' => sub {
     }
 
     $c->cache->set( "content", $res->content );
+
+    return $c->redirect('/');
+};
+
+get '/setting' => sub {
+    my ($c) = @_;
+    return $c->render('setting.tx');
+};
+
+post '/setting/consumer_key' => sub {
+    my ($c) = @_;
+
+    my $consumer_key = $c->req->param("consumer_key");
+    unless( $consumer_key ) {
+        return $c->render('error.tx', {
+            error => "consumer_keyが入力されていません"
+        });
+    }
+
+    my $redirect_uri = URI::WithBase->new(
+        "/setting/access_token", $c->req->base
+    )->abs->as_string;
+
+    my $response = $c->furl->post(
+        $REQUEST_TOKEN_URL, [], [
+            consumer_key => $consumer_key,
+            redirect_uri => $redirect_uri,
+        ],
+    );
+    unless( $response->is_success ) {
+        return $c->render('error.tx', {
+            error => sprintf("%s: %s", $response->status, $response->message),
+       });
+    }
+
+    my $body = HTTP::Body->new(
+        $response->content_type,
+        $response->content_length,
+    );
+    $body->add($response->content);
+    my $request_token = $body->param->{'code'};
+
+    $c->cache->set('consumer_key' => $consumer_key);
+    $c->cache->set('request_token' => $request_token);
+
+    return $c->redirect( $USER_AUTHORIZATION_URL, {
+        request_token => $request_token,
+        redirect_uri => $redirect_uri,
+    });
+};
+
+get '/setting/access_token' => sub {
+    my $c = shift;
+
+    my $consumer_key = $c->cache->get('consumer_key');
+    my $request_token = $c->cache->get('request_token');
+
+    my $response = $c->furl->post(
+        $ACCESS_TOKEN_URL, [], [
+            consumer_key => $consumer_key,
+            code => $request_token,
+        ],
+    );
+    unless ( $response->is_success ) {
+        return $c->render('error.tx', {
+            error => sprintf("%s: %s", $response->status, $response->message),
+        });
+    }
+
+    my $body = HTTP::Body->new(
+        $response->content_type,
+        $response->content_length,
+    );
+    $body->add($response->content);
+    $c->cache->set( "access_token", $body->param->{'access_token'} );
 
     return $c->redirect('/');
 };

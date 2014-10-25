@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title><: $title || 'PocketTrend' :></title>
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta http-equiv="Content-Script-Type" content="text/javascript" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="format-detection" content="telephone=no" />
+    <link href="<: uri_for('/static/bootstrap/css/bootstrap.css') :>" rel="stylesheet" type="text/css" />
+    <script src="<: uri_for('/static/bootstrap/js/bootstrap.js') :>"></script>
+    <link href="<: static_file('/static/css/main.css') :>" rel="stylesheet" type="text/css" media="screen" />
+    <script src="<: static_file('/static/js/main.js') :>"></script>
+    <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <h1>Pocket Trend</h1>
+    <div class="container">
+        <h2>Consumer Key</h2>
+        <form action="/setting/consumer_key" method="post">
+            <input type="text" size="50" maxlength="30" name="consumer_key">
+            <input type="submit" value="send">
+        </form>
+        <a href="http://getpocket.com/developer/" target="_blank">consumer_keyを取得</a>
+    </div>
+</body>
+</html>
+

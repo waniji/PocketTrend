@@ -4,19 +4,6 @@
 
 # How To
 
-Pocketのconsumer keyとaccess tokenを設定
-
-```
-vi config.pl
-```
-
-```
-+{
-    consumer_key => 'xxxxx',
-    access_token => 'xxxxx',
-};
-```
-
 依存モジュールをインストール
 
 ```
