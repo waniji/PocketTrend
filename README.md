@@ -2,6 +2,10 @@
 
 [Pocket](http://getpocket.com/)の記事追加数と記事読了数をグラフで表示
 
+# Screenshot
+
+![Screenshot](https://github.com/waniji/PocketTrend/blob/master/screenshot.png)
+
 # How To
 
 依存モジュールをインストール
