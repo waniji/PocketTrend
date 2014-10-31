@@ -16,6 +16,14 @@ carton install
 carton exec -- perl -Ilib script/pockettrend-server
 ```
 
+# Docker
+
+Docker imageを使用して起動
+
+```
+docker run -p 5000:5000 waniji/pocket-trend
+```
+
 # Author
 
 [Makoto Sasaki](https://github.com/waniji/)
