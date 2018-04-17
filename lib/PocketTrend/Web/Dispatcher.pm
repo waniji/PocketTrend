@@ -9,7 +9,7 @@ use URI::WithBase;
 use HTTP::Body;
 use Time::Piece;
 use Time::Seconds;
-use Encode qw/decode_utf8/;
+use Encode qw/encode_utf8/;
 
 my $RETRIEVE_URL = 'https://getpocket.com/v3/get';
 my $REQUEST_TOKEN_URL = 'https://getpocket.com/v3/oauth/request';
@@ -44,21 +44,21 @@ get '/' => sub {
         # 記事一覧を作成
         if( defined $read_date and $added_date eq $read_date ) {
             push @{ $article->{$added_date} }, +{
-                title => decode_utf8($item->{resolved_title}),
+                title => encode_utf8($item->{resolved_title}),
                 url => $item->{resolved_url},
                 added => 1,
                 read => 1,
             };
         } else {
             push @{ $article->{$added_date} }, +{
-                title => decode_utf8($item->{resolved_title}),
+                title => encode_utf8($item->{resolved_title}),
                 url => $item->{resolved_url},
                 added => 1,
                 read => 0,
             };
             if( defined $read_date ) {
                 push @{ $article->{$read_date} }, +{
-                    title => decode_utf8($item->{resolved_title}),
+                    title => encode_utf8($item->{resolved_title}),
                     url => $item->{resolved_url},
                     added => 0,
                     read => 1,
