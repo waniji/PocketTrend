@@ -30,6 +30,15 @@ get '/' => sub {
     my $article;
     for my $item ( values %{ $content->{list} } ) {
 
+        # 短縮URLのソースを取得できなかった場合の対策
+        unless($item->{resolved_url}){
+            $item->{resolved_url} = $item->{given_url};
+        }
+        # タイトルが取得できなかった場合の対策
+        unless($item->{resolved_title}){
+            $item->{resolved_title} = $item->{resolved_url};
+        }
+
         # 追加数カウント
         my $added_date = localtime($item->{time_added})->ymd("-");
         $trend{$added_date}->{add}++;
