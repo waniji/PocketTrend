@@ -85,8 +85,6 @@ get '/' => sub {
 get '/refresh' => sub {
     my ($c) = @_;
 
-    warn "Get Pocket Rtrieve!";
-
     my $uri = URI->new( $RETRIEVE_URL );
     $uri->query_form(
         consumer_key => $c->cache->get('consumer_key'),
